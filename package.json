@@ -1,0 +1,33 @@
+{
+  "name": "custom-element",
+  "packageManager": "yarn@1.22.19",
+  "devDependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@originjs/vite-plugin-federation": "^1.3.2",
+    "@tempi/core-editor": "^1.0.31",
+    "@tempi/core-renderer": "^1.0.31",
+    "@types/react": "^18.2.37",
+    "prettier": "^3.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0"
+  },
+  "dependencies": {
+  },
+  "scripts": {
+    "dev": "vite build -w & vite preview --port 3001 --strictPort",
+    "build": "vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview --port 5173 --strictPort"
+  },
+  "peerDependencies": {
+    "@emotion/react": ">=11.5.0",
+    "@emotion/styled": ">=11.3.0",
+    "@tempi/core-editor": ">=1.0.0",
+    "@tempi/core-renderer": ">=1.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  }
+}
