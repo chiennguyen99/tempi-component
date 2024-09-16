@@ -8,12 +8,12 @@ export const Banner: React.FC = () => {
         <img
           src="https://lh3.googleusercontent.com/a7Cx2pOP6i4SoSjT6_1U-1S5rg1AORcru6y2qk5pXJ-e-G7X3ics0itRykBYKijyS7eLEBPErfCTyI2wk0uFCJ7o0nyktaVY6Q=rw-w1920"
           alt="Back to School"
-          // width="100%"
+          width="100%"
         />
-        {/* <BannerText>
+        <BannerText>
           <h2>Back to School 2021</h2>
           <p>Free shipping nationwide - Installment support up to 36 months</p>
-        </BannerText> */}
+        </BannerText>
       </BannerContent>
     </BannerContainer>
   );

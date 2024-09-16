@@ -18,7 +18,7 @@ export const CustomElement: React.FC<CustomElementProps> = (props) => {
 };
 
 const Container = styled.div`
-  font-family: Arial, sans-serif;
+  font-family: "Roboto", sans-serif;
 `;
 
 CustomElement.displayName = "CustomElement";
