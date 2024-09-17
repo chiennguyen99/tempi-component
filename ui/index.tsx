@@ -19,6 +19,8 @@ export const CustomElement: React.FC<CustomElementProps> = (props) => {
 
 const Container = styled.div`
   font-family: "Roboto", sans-serif;
+  background-color: #07a1ff;
+  border-radius: 12px;
 `;
 
 CustomElement.displayName = "CustomElement";

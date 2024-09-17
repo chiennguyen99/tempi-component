@@ -1,21 +1,9 @@
-import React, { useState, useEffect } from "react";
-// import { ProductCard } from "../ProductCard";
-// import "./styles.css";
+import React from "react";
 import styled from "@emotion/styled";
 import { ProductCardProps } from "../types";
-import { Slider } from "@tempi/core-elements";
-import {} from "@tempi/core-editor";
 import SwipeableProductList from "../SwipeableProductList/SwipeableProductList";
 import { Col, Row } from "../ds";
-// import FlashSaleImage from "../../../assets/flash-sale.svg";
-// import { formatCurrencyVND } from "@tempi/core-renderer";
-
-// Define a type for the timer state
-interface Time {
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
+import { Timer } from "../Timer";
 
 interface FlashSaleProps {
   flashSaleTextConfig?: string;
@@ -26,47 +14,35 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
   flashSaleTextConfig = "SIÊU KHUYẾN MÃI",
   flashSaleTextColorConfig = "#F8FD00",
 }) => {
-  const [time, setTime] = useState<Time>({ hours: 0, minutes: 0, seconds: 0 });
-
-  useEffect(() => {
-    const countdown = setInterval(() => {
-      setTime({ hours: 2, minutes: 30, seconds: 60 });
-    }, 1000);
-
-    return () => clearInterval(countdown);
-  }, []);
-
   return (
     <Container>
-      {/* <Header>
-        <h3>Flash Sale</h3>
-        <Timer>
-          <span>
-            {time.hours}h : {time.minutes}m : {time.seconds}s
-          </span>
-        </Timer>
-      </Header> */}
-      <Row>
-        <Col size={2}>
-          <span>
-            {time.hours}h : {time.minutes}m : {time.seconds}s
-          </span>
+      <Row
+        style={{
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: 8,
+        }}
+      >
+        <Col size={2} style={{ textAlign: "start" }}>
+          <Timer />
         </Col>
-        <Col size={4}>
-          <Row>
-            <Col size={2}>
-              <img
-                src={
-                  "https://lh3.googleusercontent.com/Sa4OwefXizuyqAYBYhJ_IM7n0W-PoKyxAKt8DjqqYK-MYhhpNQP0NHBWnrw5_QSNaMkaYvHA_dYZC6OoArsu8-QRyuaGizv2"
-                }
-              />
-            </Col>
-            <Col size={8}>
-              <FlashSaleText color={flashSaleTextColorConfig}>
-                {flashSaleTextConfig}
-              </FlashSaleText>
-            </Col>
+        <Col size={6} style={{ textAlign: "center" }}>
+          <Row style={{ alignItems: "center", justifyContent: "center" }}>
+            <img
+              src={
+                "https://lh3.googleusercontent.com/Sa4OwefXizuyqAYBYhJ_IM7n0W-PoKyxAKt8DjqqYK-MYhhpNQP0NHBWnrw5_QSNaMkaYvHA_dYZC6OoArsu8-QRyuaGizv2"
+              }
+              style={{
+                marginRight: 12,
+              }}
+            />
+            <FlashSaleText color={flashSaleTextColorConfig}>
+              {flashSaleTextConfig}
+            </FlashSaleText>
           </Row>
+        </Col>
+        <Col size={2} style={{ textAlign: "end" }}>
+          <DetailButton>Xem chi tiết &#8250;</DetailButton>
         </Col>
       </Row>
 
@@ -93,24 +69,22 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
 };
 
 const Container = styled.div`
-  margin-top: 20px;
+  // margin-top: 20px;
   padding: 20px;
-  background-color: #eaf5fc;
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Timer = styled.div`
-  font-size: 18px;
-  color: #ff0000;
+  background-color: #07a1ff;
 `;
 
 const FlashSaleText = styled.p<{ color: string }>`
   font-size: 40px;
+
+  @media (max-width: 1024px) {
+    font-size: 32px;
+  }
+
+  @media (max-width: 540px) {
+    font-size: 18px;
+  }
+
   color: ${({ color }) => color};
 `;
 
@@ -119,4 +93,24 @@ const ProductListContainer = styled.div<{ productListBackground?: string }>`
   background-color: ${({ productListBackground }) =>
     productListBackground ? productListBackground : "#5AC5FF"};
   border-radius: 24px;
+`;
+
+const DetailButton = styled.button`
+  background-color: #00a1f1;
+  color: white;
+  border: 2px solid #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #008bd1; /* Darker background on hover */
+  }
 `;
