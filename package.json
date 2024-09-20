@@ -7,7 +7,6 @@
     "@originjs/vite-plugin-federation": "^1.3.2",
     "@tempi/core-editor": "^1.0.31",
     "@tempi/core-renderer": "^1.0.31",
-    "@tempi/core-elements": "^1.0.31",
     "@types/react": "^18.2.37",
     "prettier": "^3.0.3",
     "react": "^18.2.0",

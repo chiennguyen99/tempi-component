@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { Row, Col } from "../ds";
+import { formatCurrencyVND } from "@tempi/core-renderer";
 
 // Define types for the props
 interface ProductCardProps {
@@ -11,7 +12,7 @@ interface ProductCardProps {
   discountPercent?: number;
   totalAvailable?: number;
   availableTextConfig?: string;
-  currencyConfig?: string;
+  // currencyConfig?: string;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -22,27 +23,29 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   totalAvailable,
   availableTextConfig = "Còn {{totalAvailable}} sản phẩm",
   imageUrl,
-  currencyConfig = "đ",
+  // currencyConfig = "đ",
 }) => {
   return (
     <Container>
-      <ProductImage
-        src={imageUrl}
-        // src="https://lh3.googleusercontent.com/sQqMpT31Gydg-oGgnBw6hWQtaLsNFTyNgegllf6UK95ssJzsM3kKyMYKNrJW4op2NJ2KEjHaPkBAgKzEUPKQvRk4npzIX0t22w=w500-rw"
-        alt={name}
-      />
+      <ProductImage src={imageUrl} alt={name} />
       <ProductName>{name}</ProductName>
       <Row style={{ alignItems: "center" }}>
-        <Col size={9}>
-          <ProductPrice>{price + currencyConfig}</ProductPrice>
-        </Col>
+        {!!price && (
+          <Col size={9}>
+            <ProductPrice>{formatCurrencyVND(Number(price))}</ProductPrice>
+          </Col>
+        )}
         {!!discountPercent && (
           <Col size={2}>
             <Discount>{`${discountPercent}%`}</Discount>
           </Col>
         )}
       </Row>
-      <OriginalPrice>{supplierRetailPrice + currencyConfig}</OriginalPrice>
+      {!!supplierRetailPrice && (
+        <OriginalPrice>
+          {formatCurrencyVND(Number(supplierRetailPrice))}
+        </OriginalPrice>
+      )}
       {!!totalAvailable && !!availableTextConfig && (
         <Stock>
           {availableTextConfig.replace(
@@ -58,7 +61,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
 const Container = styled.div`
   margin: 4px;
-  width: 220px;
+  width: 240px;
   padding: 15px;
   background-color: #fff;
   border-radius: 12px;
@@ -83,7 +86,14 @@ const OriginalPrice = styled.p`
 
 const ProductName = styled.p`
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 400;
+
+  line-height: 16px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: #434657;
 `;
 
 const Discount = styled.div`

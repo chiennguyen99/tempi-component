@@ -1,19 +1,32 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { useStore } from "@tempi/core-renderer";
 import { ProductCardProps } from "../types";
 import SwipeableProductList from "../SwipeableProductList/SwipeableProductList";
 import { Col, Row } from "../ds";
 import { Timer } from "../Timer";
+import { FLASH_SALE_ICON } from "../../../constants";
+import { BlockCountdown } from "../BlockCountdown";
 
 interface FlashSaleProps {
+  backgroundColor?: string;
   flashSaleTextConfig?: string;
   flashSaleTextColorConfig?: string;
+  flashSaleIcon?: string;
+  endTime?: string;
+  viewMoreUrl?: string;
 }
 
 export const FlashSale: React.FC<FlashSaleProps> = ({
+  backgroundColor,
   flashSaleTextConfig = "SIÊU KHUYẾN MÃI",
   flashSaleTextColorConfig = "#F8FD00",
+  flashSaleIcon,
+  endTime,
+  viewMoreUrl,
 }) => {
+  const { device } = useStore();
+
   return (
     <Container>
       <Row
@@ -24,25 +37,30 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
         }}
       >
         <Col size={2} style={{ textAlign: "start" }}>
-          <Timer />
+          <BlockCountdown endTime={endTime} />
         </Col>
         <Col size={6} style={{ textAlign: "center" }}>
           <Row style={{ alignItems: "center", justifyContent: "center" }}>
-            <img
+            <FlashSaleImage
               src={
+                flashSaleIcon ||
                 "https://lh3.googleusercontent.com/Sa4OwefXizuyqAYBYhJ_IM7n0W-PoKyxAKt8DjqqYK-MYhhpNQP0NHBWnrw5_QSNaMkaYvHA_dYZC6OoArsu8-QRyuaGizv2"
               }
               style={{
                 marginRight: 12,
               }}
             />
-            <FlashSaleText color={flashSaleTextColorConfig}>
-              {flashSaleTextConfig}
-            </FlashSaleText>
+            {device === "desktop" && (
+              <FlashSaleText color={flashSaleTextColorConfig}>
+                {flashSaleTextConfig}
+              </FlashSaleText>
+            )}
           </Row>
         </Col>
         <Col size={2} style={{ textAlign: "end" }}>
-          <DetailButton>Xem chi tiết &#8250;</DetailButton>
+          <DetailButton backgroundColor={backgroundColor}>
+            Xem chi tiết &#8250;
+          </DetailButton>
         </Col>
       </Row>
 
@@ -70,8 +88,13 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
 
 const Container = styled.div`
   // margin-top: 20px;
-  padding: 20px;
-  background-color: #07a1ff;
+  padding: 0px 20px 20px 20px;
+
+  // background-color: #07a1ff;
+`;
+
+const FlashSaleImage = styled.img`
+  max-width:;
 `;
 
 const FlashSaleText = styled.p<{ color: string }>`
@@ -95,8 +118,10 @@ const ProductListContainer = styled.div<{ productListBackground?: string }>`
   border-radius: 24px;
 `;
 
-const DetailButton = styled.button`
-  background-color: #00a1f1;
+const DetailButton = styled.button<{ backgroundColor?: string }>`
+  // background-color: #00a1f1;
+  background-color: ${({ backgroundColor }) =>
+    backgroundColor ? backgroundColor : "#00a1f1"};
   color: white;
   border: 2px solid #fff;
   padding: 10px 20px;
@@ -111,6 +136,6 @@ const DetailButton = styled.button`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #008bd1; /* Darker background on hover */
+    opacity: 0.7;
   }
 `;

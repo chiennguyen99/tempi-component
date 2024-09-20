@@ -10,7 +10,7 @@ export const Banner: React.FC = () => {
       <BannerImage
         src={
           bannerImage ||
-          "https://lh3.googleusercontent.com/D--D-fXFKGl8w4Wyta4IoDK7z7Oys8gzo6SVuhdRZ4qxvTwB9JWW1VDVtZRzvy3WIyvSdhrymW0VZkCgIRG6oBTOnZQmkJmw"
+          "https://lh3.googleusercontent.com/D--D-fXFKGl8w4Wyta4IoDK7z7Oys8gzo6SVuhdRZ4qxvTwB9JWW1VDVtZRzvy3WIyvSdhrymW0VZkCgIRG6oBTOnZQmkJmw=rw-w1749"
         }
         alt="Back to School"
         width="100%"
@@ -20,7 +20,7 @@ export const Banner: React.FC = () => {
 };
 
 const BannerContainer = styled.div`
-  background-color: #07a1ff;
+  // background-color: #07a1ff;
   padding: 20px;
   display: flex;
   justify-content: center;

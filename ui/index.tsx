@@ -9,17 +9,18 @@ import { Banner } from "./components/Banner";
 import { FlashSale } from "./components/FlashSale";
 
 export const CustomElement: React.FC<CustomElementProps> = (props) => {
+  console.log(props);
   return (
-    <Container>
+    <Container backgroundColor={props.backgroundColor}>
       <Banner />
-      <FlashSale />
+      <FlashSale backgroundColor={props.backgroundColor} />
     </Container>
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ backgroundColor?: string }>`
   font-family: "Roboto", sans-serif;
-  background-color: #07a1ff;
+  background-color: ${({ backgroundColor }) => backgroundColor || "#07a1ff"};
   border-radius: 12px;
 `;
 

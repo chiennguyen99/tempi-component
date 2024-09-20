@@ -1,19 +1,28 @@
 import styled from "@emotion/styled";
 import React, { useState, useEffect } from "react";
 import { BaseProps, Row } from "../ds";
+import { PROP_KEY, usePropSeparateDevice } from "@tempi/core-editor";
 
 interface Time {
-  hours: number;
-  minutes: number;
-  seconds: number;
+  hours: string;
+  minutes: string;
+  seconds: string;
 }
 
 export const Timer: React.FC = () => {
-  const [time, setTime] = useState<Time>({ hours: 0, minutes: 0, seconds: 0 });
+  const [endTime] = usePropSeparateDevice(
+    PROP_KEY.joinKey(PROP_KEY.TimeVisibility, PROP_KEY.EndTime)
+  );
+
+  const [time, setTime] = useState<Time>({
+    hours: "00",
+    minutes: "00",
+    seconds: "00",
+  });
 
   useEffect(() => {
     const countdown = setInterval(() => {
-      setTime({ hours: 2, minutes: 30, seconds: 60 });
+      setTime({ hours: "02", minutes: "30", seconds: "60" });
     }, 1000);
 
     return () => clearInterval(countdown);
@@ -31,7 +40,7 @@ export const Timer: React.FC = () => {
 };
 
 interface CounterProps extends Omit<BaseProps, "children"> {
-  value: number;
+  value: string;
 }
 
 const Colon = styled.p`
