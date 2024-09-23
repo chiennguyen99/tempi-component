@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { useStore } from "@tempi/core-renderer";
 import { ProductCardProps } from "../types";
 import SwipeableProductList from "../SwipeableProductList/SwipeableProductList";
 import { Col, Row } from "../ds";
 import { Timer } from "../Timer";
-import { FLASH_SALE_ICON } from "../../../constants";
+import { FLASH_SALE_ICON, PLATFORM } from "../../../constants";
 import { BlockCountdown } from "../BlockCountdown";
 
 interface FlashSaleProps {
@@ -15,6 +15,7 @@ interface FlashSaleProps {
   flashSaleIcon?: string;
   endTime?: string;
   viewMoreUrl?: string;
+  productListBackgroundConfig?: string;
 }
 
 export const FlashSale: React.FC<FlashSaleProps> = ({
@@ -24,8 +25,57 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
   flashSaleIcon,
   endTime,
   viewMoreUrl,
+  productListBackgroundConfig,
 }) => {
   const { device } = useStore();
+  const { leftSize, centerSize, rightSize } =
+    device === "desktop"
+      ? {
+          leftSize: 2,
+          centerSize: 6,
+          rightSize: 2,
+        }
+      : {
+          leftSize: 5,
+          centerSize: 1,
+          rightSize: 5,
+        };
+  const [products, setProducts] = useState<ProductCardProps[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      return await fetch(
+        "https://discovery.tekoapis.com/api/v2/search-skus-v2",
+        {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            terminalId: PLATFORM["phongvu"].terminalId,
+            slug: "/c/flash-sales-3-1",
+            blockId: "580",
+            itemId: "72531",
+            pageSize: 20,
+            sorting: {},
+          }),
+        }
+      );
+    };
+
+    fetchData()
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => console.log(data))
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Container>
@@ -36,10 +86,10 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
           marginBottom: 8,
         }}
       >
-        <Col size={2} style={{ textAlign: "start" }}>
+        <Col size={leftSize} style={{ textAlign: "start" }}>
           <BlockCountdown endTime={endTime} />
         </Col>
-        <Col size={6} style={{ textAlign: "center" }}>
+        <Col size={centerSize} style={{ textAlign: "center" }}>
           <Row style={{ alignItems: "center", justifyContent: "center" }}>
             <FlashSaleImage
               src={
@@ -48,6 +98,7 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
               }
               style={{
                 marginRight: 12,
+                width: device === "desktop" ? 70 : 40,
               }}
             />
             {device === "desktop" && (
@@ -57,15 +108,16 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
             )}
           </Row>
         </Col>
-        <Col size={2} style={{ textAlign: "end" }}>
+        <Col size={rightSize} style={{ textAlign: "end" }}>
           <DetailButton backgroundColor={backgroundColor}>
             Xem chi tiết &#8250;
           </DetailButton>
         </Col>
       </Row>
 
-      <ProductListContainer>
-        <SwipeableProductList
+      <ProductListContainer isMobile={device === "mobile"}>
+        <SwipeableProductList products={products} />
+        {/* <SwipeableProductList
           products={Array.from(
             { length: 10 },
             (_, index) =>
@@ -80,7 +132,7 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
                 totalAvailable: 4,
               }) as ProductCardProps
           )}
-        />
+        /> */}
       </ProductListContainer>
     </Container>
   );
@@ -111,20 +163,22 @@ const FlashSaleText = styled.p<{ color: string }>`
   color: ${({ color }) => color};
 `;
 
-const ProductListContainer = styled.div<{ productListBackground?: string }>`
-  padding: 24px;
+const ProductListContainer = styled.div<{
+  productListBackground?: string;
+  isMobile?: boolean;
+}>`
+  padding: ${({ isMobile }) => (isMobile ? "12px" : "24px")};
   background-color: ${({ productListBackground }) =>
     productListBackground ? productListBackground : "#5AC5FF"};
   border-radius: 24px;
 `;
 
 const DetailButton = styled.button<{ backgroundColor?: string }>`
-  // background-color: #00a1f1;
   background-color: ${({ backgroundColor }) =>
     backgroundColor ? backgroundColor : "#00a1f1"};
   color: white;
   border: 2px solid #fff;
-  padding: 10px 20px;
+  padding: 4px 8px;
   font-size: 16px;
   font-family: Arial, sans-serif;
   border-radius: 5px;

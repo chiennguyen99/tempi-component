@@ -41,14 +41,15 @@ const SwipeableProductList: React.FC<Props> = ({ products }) => {
       if (!isSwiping) return;
       const currentX = e.touches[0].clientX;
       const diffX = currentX - startX;
-      setCurrentOffset(-current!.offsetWidth * currentIndex + diffX);
+      setCurrentOffset(-(current?.offsetWidth || 0) * currentIndex + diffX);
     };
 
     const handleTouchEnd = () => {
       setIsSwiping(false);
-      const threshold = containerRef.current!.offsetWidth / 4;
+      const threshold = (containerRef.current?.offsetWidth || 0) / 4;
       const endPosition =
-        currentOffset - -containerRef.current!.offsetWidth * currentIndex;
+        currentOffset -
+        -(containerRef.current?.offsetWidth || 0) * currentIndex;
 
       if (endPosition < -threshold && currentIndex < products.length - 1) {
         setCurrentIndex(currentIndex + 1);
@@ -56,25 +57,29 @@ const SwipeableProductList: React.FC<Props> = ({ products }) => {
         setCurrentIndex(currentIndex - 1);
       } else {
         // Re-align to the current index if no change
-        setCurrentOffset(-containerRef.current!.offsetWidth * currentIndex);
+        setCurrentOffset(
+          -(containerRef.current?.offsetWidth || 0) * currentIndex
+        );
       }
     };
 
-    current!.addEventListener("touchstart", handleTouchStart);
-    current!.addEventListener("touchmove", handleTouchMove);
-    current!.addEventListener("touchend", handleTouchEnd);
+    current?.addEventListener?.("touchstart", handleTouchStart);
+    current?.addEventListener?.("touchmove", handleTouchMove);
+    current?.addEventListener?.("touchend", handleTouchEnd);
 
     return () => {
-      current!.removeEventListener("touchstart", handleTouchStart);
-      current!.removeEventListener("touchmove", handleTouchMove);
-      current!.removeEventListener("touchend", handleTouchEnd);
+      current?.removeEventListener?.("touchstart", handleTouchStart);
+      current?.removeEventListener?.("touchmove", handleTouchMove);
+      current?.removeEventListener?.("touchend", handleTouchEnd);
     };
   }, [currentIndex, isSwiping, currentOffset, products.length]);
 
   useEffect(() => {
     // Reset the offset whenever the currentIndex changes
-    setCurrentOffset(-containerRef.current!.offsetWidth * currentIndex);
+    setCurrentOffset(-(containerRef?.current?.offsetWidth || 0) * currentIndex);
   }, [currentIndex]);
+
+  if (!products || products?.length === 0) return <EmptyProduct />;
 
   return (
     <Container ref={containerRef}>
@@ -86,5 +91,15 @@ const SwipeableProductList: React.FC<Props> = ({ products }) => {
     </Container>
   );
 };
+
+const EmptyProduct = () => {
+  return <Wrapper>Danh sách sản phẩm trống</Wrapper>;
+};
+
+const Wrapper = styled.div`
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+`;
 
 export default SwipeableProductList;

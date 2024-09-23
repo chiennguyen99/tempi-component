@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { Row, Col } from "../ds";
 import { formatCurrencyVND } from "@tempi/core-renderer";
+import { DEFAULT_IMAGE } from "../../../constants";
 
 // Define types for the props
 interface ProductCardProps {
@@ -27,7 +28,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   return (
     <Container>
-      <ProductImage src={imageUrl} alt={name} />
+      <ProductImage src={imageUrl || DEFAULT_IMAGE} alt={name} />
       <ProductName>{name}</ProductName>
       <Row style={{ alignItems: "center" }}>
         {!!price && (
