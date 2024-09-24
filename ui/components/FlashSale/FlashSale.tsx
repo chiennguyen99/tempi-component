@@ -48,10 +48,10 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
         "https://discovery.tekoapis.com/api/v2/search-skus-v2",
         {
           method: "POST",
-          mode: "no-cors",
-          headers: {
+          mode: "cors",
+          headers: new Headers({
             "Content-Type": "application/json",
-          },
+          }),
           body: JSON.stringify({
             terminalId: PLATFORM["phongvu"].terminalId,
             slug: "/c/flash-sales-3-1",
@@ -71,7 +71,9 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
         }
         return response.json();
       })
-      .then((data) => console.log(data))
+      .then((data) => {
+        setProducts(data.data.products);
+      })
       .catch((err) => {
         console.log(err);
       });

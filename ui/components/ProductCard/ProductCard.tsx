@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { Row, Col } from "../ds";
-import { formatCurrencyVND } from "@tempi/core-renderer";
+import { formatCurrencyVND, ImageBase } from "@tempi/core-renderer";
 import { DEFAULT_IMAGE } from "../../../constants";
+import { Link } from "../Link";
 
 // Define types for the props
 interface ProductCardProps {
@@ -13,7 +14,7 @@ interface ProductCardProps {
   discountPercent?: number;
   totalAvailable?: number;
   availableTextConfig?: string;
-  // currencyConfig?: string;
+  link?: string;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -24,11 +25,43 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   totalAvailable,
   availableTextConfig = "Còn {{totalAvailable}} sản phẩm",
   imageUrl,
-  // currencyConfig = "đ",
+  link = "",
 }) => {
+  const productVisualElement = (
+    <ProductVisualWrapper>
+      <div style={{ position: "relative", paddingBottom: "100%" }}>
+        <StyledImage
+          commonStyle={{
+            objectFit: "contain",
+            height: "100%",
+            width: "100%",
+          }}
+          autoOptimize
+          src={imageUrl || DEFAULT_IMAGE}
+          alt={name}
+        />
+      </div>
+    </ProductVisualWrapper>
+  );
+
+  const renderProductVisual = () => {
+    // Thêm link khi click vào sản phẩm dựa trên đường dẫn trong cấu hình danh sách sản phẩm.
+    return (
+      <Link
+        {...{
+          eventType: "link",
+          link: { openNewTab: true, nofollow: true, href: link },
+        }}
+      >
+        {productVisualElement}
+      </Link>
+    );
+  };
+
   return (
     <Container>
-      <ProductImage src={imageUrl || DEFAULT_IMAGE} alt={name} />
+      {/* <ProductImage src={imageUrl || DEFAULT_IMAGE} alt={name} /> */}
+      {renderProductVisual()}
       <ProductName>{name}</ProductName>
       <Row style={{ alignItems: "center" }}>
         {!!price && (
@@ -62,7 +95,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
 const Container = styled.div`
   margin: 4px;
-  width: 240px;
   padding: 15px;
   background-color: #fff;
   border-radius: 12px;
@@ -70,8 +102,9 @@ const Container = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-const ProductImage = styled.img`
-  width: 100%;
+const ProductVisualWrapper = styled.div`
+  position: relative;
+  margin-bottom: 4px;
 `;
 
 const ProductPrice = styled.p`
@@ -126,4 +159,12 @@ const Stock = styled.p`
   border: 1px dashed #00a2fd;
   border-radius: 6px;
   margin-top: 10px;
+`;
+
+const StyledImage = styled(ImageBase)`
+  display: inline-block;
+  overflow: hidden;
+  position: absolute;
+  height: 100%;
+  inset: 0;
 `;
