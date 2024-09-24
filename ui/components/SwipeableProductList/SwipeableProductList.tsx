@@ -9,7 +9,7 @@ interface Props {
 
 const Container = styled.div`
   overflow: hidden;
-  width: 100%; // Ensure the container takes full width it's allowed
+  // width: 100%; // Ensure the container takes full width it's allowed
   position: relative;
   touch-action: pan-y;
 `;

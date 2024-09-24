@@ -1,6 +1,7 @@
 import React from "react";
 import { CustomElementInterface } from "../type";
 import styled from "@emotion/styled";
+import { useStore } from "@tempi/core-renderer";
 // import { ThemeProvider } from "@emotion/react";
 
 export type CustomElementProps = CustomElementInterface;
@@ -9,11 +10,26 @@ import { Banner } from "./components/Banner";
 import { FlashSale } from "./components/FlashSale";
 
 export const CustomElement: React.FC<CustomElementProps> = (props) => {
-  console.log(props);
+  const {
+    backgroundColor,
+    isEditingMode,
+    bannerImage,
+    timeVisibility,
+    viewMoreUrl,
+  } = props || {};
+  const { globalData } = useStore();
+  const isPreviewMode = globalData?.isPreviewMode;
+  const isAddTracking = !isEditingMode && !isPreviewMode;
+
   return (
-    <Container backgroundColor={props.backgroundColor}>
-      <Banner />
-      <FlashSale backgroundColor={props.backgroundColor} />
+    <Container backgroundColor={backgroundColor}>
+      <Banner bannerImage={bannerImage} isAddTracking={isAddTracking} />
+      <FlashSale
+        backgroundColor={backgroundColor}
+        isAddTracking={isAddTracking}
+        endTime={timeVisibility?.endTime}
+        viewMoreUrl={viewMoreUrl}
+      />
     </Container>
   );
 };

@@ -30,7 +30,7 @@ export const BlockCountdown: React.FC<{
     <CountdownWrapper isMobile={isMobile}>
       {!!timer?.days ? (
         <>
-          Kết thúc sau
+          {isMobile ? "Còn" : "Kết thúc sau"}
           <RemainingDay style={digitStyle as CSSProperties}>
             {addPaddingNumber(timer.days)}
           </RemainingDay>{" "}

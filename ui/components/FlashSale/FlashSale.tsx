@@ -7,6 +7,8 @@ import { Col, Row } from "../ds";
 import { Timer } from "../Timer";
 import { FLASH_SALE_ICON, PLATFORM } from "../../../constants";
 import { BlockCountdown } from "../BlockCountdown";
+import { ProductCarousel } from "../ProductCarousel";
+import { Link } from "../Link";
 
 interface FlashSaleProps {
   backgroundColor?: string;
@@ -15,7 +17,9 @@ interface FlashSaleProps {
   flashSaleIcon?: string;
   endTime?: string;
   viewMoreUrl?: string;
+  viewMoreText?: string;
   productListBackgroundConfig?: string;
+  isAddTracking?: boolean;
 }
 
 export const FlashSale: React.FC<FlashSaleProps> = ({
@@ -25,15 +29,17 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
   flashSaleIcon,
   endTime,
   viewMoreUrl,
+  viewMoreText = "Xem chi tiết",
   productListBackgroundConfig,
+  isAddTracking = true,
 }) => {
   const { device } = useStore();
   const { leftSize, centerSize, rightSize } =
     device === "desktop"
       ? {
-          leftSize: 2,
+          leftSize: 3,
           centerSize: 6,
-          rightSize: 2,
+          rightSize: 3,
         }
       : {
           leftSize: 5,
@@ -89,7 +95,7 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
         }}
       >
         <Col size={leftSize} style={{ textAlign: "start" }}>
-          <BlockCountdown endTime={endTime} />
+          <BlockCountdown endTime={endTime} isMobile={device === "mobile"} />
         </Col>
         <Col size={centerSize} style={{ textAlign: "center" }}>
           <Row style={{ alignItems: "center", justifyContent: "center" }}>
@@ -112,23 +118,32 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
         </Col>
         <Col size={rightSize} style={{ textAlign: "end" }}>
           <DetailButton backgroundColor={backgroundColor}>
-            Xem chi tiết &#8250;
+            <Link
+              link={{
+                href: viewMoreUrl,
+              }}
+              children={<>{viewMoreText} &#8250;</>}
+            />
           </DetailButton>
         </Col>
       </Row>
 
-      <ProductListContainer isMobile={device === "mobile"}>
-        <SwipeableProductList products={products} />
+      <ProductListContainer
+        isMobile={device === "mobile"}
+        productListBackground={productListBackgroundConfig}
+      >
+        {/* <SwipeableProductList products={products} /> */}
+        <ProductCarousel products={products} isAddTracking={isAddTracking} />
         {/* <SwipeableProductList
           products={Array.from(
-            { length: 10 },
+            { length: 20 },
             (_, index) =>
               ({
                 sku: `sku${index}`,
                 imageUrl:
                   "https://lh3.googleusercontent.com/sQqMpT31Gydg-oGgnBw6hWQtaLsNFTyNgegllf6UK95ssJzsM3kKyMYKNrJW4op2NJ2KEjHaPkBAgKzEUPKQvRk4npzIX0t22w=w500-rw",
                 name: "Laptop ASUS TUF Gaming",
-                price: "15000000",
+                latestPrice: "15000000",
                 supplierRetailPrice: "20000000",
                 discountPercent: 10,
                 totalAvailable: 4,
@@ -153,6 +168,8 @@ const FlashSaleImage = styled.img`
 
 const FlashSaleText = styled.p<{ color: string }>`
   font-size: 40px;
+  font-weight: 700;
+  font-style: italic;
 
   @media (max-width: 1024px) {
     font-size: 32px;
@@ -175,15 +192,15 @@ const ProductListContainer = styled.div<{
   border-radius: 24px;
 `;
 
-const DetailButton = styled.button<{ backgroundColor?: string }>`
+const DetailButton = styled.div<{ backgroundColor?: string }>`
   background-color: ${({ backgroundColor }) =>
     backgroundColor ? backgroundColor : "#00a1f1"};
   color: white;
-  border: 2px solid #fff;
-  padding: 4px 8px;
-  font-size: 16px;
-  font-family: Arial, sans-serif;
-  border-radius: 5px;
+  border: 1px solid #fff;
+  padding: 8px 8px 8px 12px;
+  font-size: 20px;
+  font-weight: 400;
+  border-radius: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -193,5 +210,10 @@ const DetailButton = styled.button<{ backgroundColor?: string }>`
 
   &:hover {
     opacity: 0.7;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+    padding: 2px 8px 2px 8px;
   }
 `;

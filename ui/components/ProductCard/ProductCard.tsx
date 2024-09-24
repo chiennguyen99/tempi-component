@@ -9,7 +9,7 @@ import { Link } from "../Link";
 interface ProductCardProps {
   imageUrl: string;
   name: string;
-  price: string;
+  latestPrice: string;
   supplierRetailPrice: string;
   discountPercent?: number;
   totalAvailable?: number;
@@ -19,7 +19,7 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   name,
-  price,
+  latestPrice,
   supplierRetailPrice,
   discountPercent,
   totalAvailable,
@@ -64,9 +64,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       {renderProductVisual()}
       <ProductName>{name}</ProductName>
       <Row style={{ alignItems: "center" }}>
-        {!!price && (
+        {!!latestPrice && (
           <Col size={9}>
-            <ProductPrice>{formatCurrencyVND(Number(price))}</ProductPrice>
+            <ProductPrice>
+              {formatCurrencyVND(Number(latestPrice))}
+            </ProductPrice>
           </Col>
         )}
         {!!discountPercent && (
@@ -95,6 +97,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
 const Container = styled.div`
   margin: 4px;
+  width: 200px;
   padding: 15px;
   background-color: #fff;
   border-radius: 12px;
