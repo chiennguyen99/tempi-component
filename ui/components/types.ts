@@ -8,4 +8,7 @@ export interface ProductCardProps {
   totalAvailable?: number;
   availableTextConfig?: string;
   currencyConfig?: string;
+  viewMoreUrl?: string;
+  viewMoreText?: string;
+  flashSaleIcon?: string;
 }

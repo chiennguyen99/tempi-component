@@ -11,4 +11,8 @@ export type CustomElementInterface = {
   viewMoreUrl?: string;
   platformConfig?: string;
   collectionSlug?: string;
+  availableTextConfig?: string;
+  buyNowTextConfig?: string;
+  productListBackgroundConfig?: string;
+  flashSaleIcon?: string;
 };

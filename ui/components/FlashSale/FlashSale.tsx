@@ -22,6 +22,8 @@ interface FlashSaleProps {
   isAddTracking?: boolean;
   platformConfig?: string;
   collectionSlug?: string;
+  availableTextConfig?: string;
+  buyNowTextConfig?: string;
 }
 
 export const FlashSale: React.FC<FlashSaleProps> = ({
@@ -36,6 +38,8 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
   isAddTracking = true,
   platformConfig = "phongvu",
   collectionSlug = "/c/flash-sales-3-1",
+  availableTextConfig,
+  buyNowTextConfig,
 }) => {
   const { device } = useStore();
   const { leftSize, centerSize, rightSize } =
@@ -134,7 +138,12 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
         productListBackground={productListBackgroundConfig}
       >
         {/* <SwipeableProductList products={products} /> */}
-        <ProductCarousel products={products} isAddTracking={isAddTracking} />
+        <ProductCarousel
+          products={products}
+          isAddTracking={isAddTracking}
+          availableTextConfig={availableTextConfig}
+          buyNowTextConfig={buyNowTextConfig}
+        />
         {/* <SwipeableProductList
           products={Array.from(
             { length: 20 },

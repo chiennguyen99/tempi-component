@@ -10,6 +10,14 @@ export const BACKGROUND_COLOR = "backgroundColor";
 
 export const FLASH_SALE_ICON = "flashSaleIcon";
 
+export const VIEW_MORE_TEXT = "viewMoreText";
+
+export const AVAILABLE_TEXT_CONFIG = "availableTextConfig";
+
+export const BUY_NOW_TEXT_CONFIG = "buyNowTextConfig";
+
+export const PRODUCT_LIST_BACKGROUND_CONFIG = "productListBackgroundConfig";
+
 export const DEFAULT_IMAGE =
   "https://landingbuilder-cdn.tekoapis.com/static-assets/images/default_image.svg";
 

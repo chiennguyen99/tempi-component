@@ -1,8 +1,7 @@
 import React from "react";
 import { CustomElementInterface } from "../type";
 import styled from "@emotion/styled";
-import { useStore } from "@tempi/core-renderer";
-// import { ThemeProvider } from "@emotion/react";
+import { getTrackingData, useStore } from "@tempi/core-renderer";
 
 export type CustomElementProps = CustomElementInterface;
 
@@ -18,21 +17,40 @@ export const CustomElement: React.FC<CustomElementProps> = (props) => {
     viewMoreUrl,
     platformConfig,
     collectionSlug,
+    viewMoreText,
+    availableTextConfig,
+    buyNowTextConfig,
+    productListBackgroundConfig,
+    flashSaleIcon,
   } = props || {};
   const { globalData } = useStore();
   const isPreviewMode = globalData?.isPreviewMode;
   const isAddTracking = !isEditingMode && !isPreviewMode;
 
+  console.log(bannerImage + " ??????????????");
+
   return (
-    <Container backgroundColor={backgroundColor}>
+    <Container
+      backgroundColor={backgroundColor}
+      {...(isAddTracking &&
+        getTrackingData({
+          isTrackContent: true,
+          regionName: "CustomElementFlashSale",
+        }))}
+    >
       <Banner bannerImage={bannerImage} isAddTracking={isAddTracking} />
       <FlashSale
         backgroundColor={backgroundColor}
         isAddTracking={isAddTracking}
         endTime={timeVisibility?.endTime}
         viewMoreUrl={viewMoreUrl}
+        viewMoreText={viewMoreText}
         platformConfig={platformConfig}
         collectionSlug={collectionSlug}
+        availableTextConfig={availableTextConfig}
+        buyNowTextConfig={buyNowTextConfig}
+        productListBackgroundConfig={productListBackgroundConfig}
+        flashSaleIcon={flashSaleIcon}
       />
     </Container>
   );

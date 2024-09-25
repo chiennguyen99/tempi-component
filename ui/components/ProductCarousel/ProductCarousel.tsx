@@ -7,10 +7,12 @@ export const ProductCarousel: React.FC<{
   products: ProductCardProps[];
   availableTextConfig?: string;
   isAddTracking?: boolean;
+  buyNowTextConfig?: string;
 }> = ({
   products,
   availableTextConfig = "Còn {{totalAvailable}} sản phẩm",
   isAddTracking = true,
+  buyNowTextConfig = "Mua ngay",
 }) => {
   return (
     <ProductListContainer>
@@ -60,7 +62,7 @@ export const ProductCarousel: React.FC<{
                 )}
               </Stock>
             )}
-            <BuyNowButton>MUA NGAY</BuyNowButton>
+            <BuyNowButton>{buyNowTextConfig.toUpperCase()}</BuyNowButton>
           </ProductItem>
         )
       )}

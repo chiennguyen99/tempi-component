@@ -7,9 +7,8 @@ export const Banner: React.FC<{
   isAddTracking?: boolean;
 }> = ({ bannerImage, isAddTracking = true }) => {
   const imageSrc =
-    (bannerImage ||
-      "https://lh3.googleusercontent.com/D--D-fXFKGl8w4Wyta4IoDK7z7Oys8gzo6SVuhdRZ4qxvTwB9JWW1VDVtZRzvy3WIyvSdhrymW0VZkCgIRG6oBTOnZQmkJmw") +
-    "=rw-w1749";
+    bannerImage ||
+    "https://lh3.googleusercontent.com/D--D-fXFKGl8w4Wyta4IoDK7z7Oys8gzo6SVuhdRZ4qxvTwB9JWW1VDVtZRzvy3WIyvSdhrymW0VZkCgIRG6oBTOnZQmkJmw=rw-w1749";
 
   return (
     <BannerContainer

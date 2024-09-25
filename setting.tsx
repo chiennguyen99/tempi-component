@@ -4,28 +4,25 @@ import {
   RangePickerConfig,
   PROP_KEY,
   InputConfig,
-  FormItem,
   SelectConfig,
   SwitchConfig,
 } from "@tempi/core-editor";
 import React, { useState } from "react";
-import {
-  ImageUploadButton,
-  beforeUploadImage,
-  usePropSeparateDevice,
-  ColorPickerConfig,
-} from "@tempi/core-editor";
+import { usePropSeparateDevice, ColorPickerConfig } from "@tempi/core-editor";
 import {
   BANNER_IMAGE_KEY,
   BACKGROUND_COLOR,
   FLASH_SALE_ICON,
   PLATFORM_CONFIG,
   PLATFORM,
+  VIEW_MORE_TEXT,
+  AVAILABLE_TEXT_CONFIG,
+  BUY_NOW_TEXT_CONFIG,
+  PRODUCT_LIST_BACKGROUND_CONFIG,
 } from "./constants";
 
 export const Setting: React.FC<SettingConfigProps & CropProps> = ({
   separateDevice,
-  allowCropImage,
 }) => {
   const [selectAvailablePlatform, setSelectAvailablePlatform] = useState(true);
   const [, setBannerImage] = usePropSeparateDevice(
@@ -44,17 +41,17 @@ export const Setting: React.FC<SettingConfigProps & CropProps> = ({
 
   return (
     <>
-      <FormItem layout="horizontal" label="Banner Image">
-        <ImageUploadButton
-          accept="image/jpg, image/jpeg, image/png, image/gif, image/webp"
-          beforeUpload={beforeUploadImage}
-          imagePropKey={BANNER_IMAGE_KEY}
-          placeholder={<>Tải ảnh lên (Tối đa 20MB)</>}
-          deleteImage={() => setBannerImage(undefined)}
-          separateDevice={separateDevice}
-          allowCropImage={allowCropImage}
-        />
-      </FormItem>
+      <InputConfig
+        formItemProps={{
+          label: "Banner image url",
+          layout: "vertical",
+        }}
+        propKey={BANNER_IMAGE_KEY}
+        inputProps={{
+          placeholder: "link",
+          style: { width: "100%" },
+        }}
+      />
       <ColorPickerConfig
         propKey={BACKGROUND_COLOR}
         formItemProps={{
@@ -62,17 +59,24 @@ export const Setting: React.FC<SettingConfigProps & CropProps> = ({
         }}
         separateDevice={separateDevice}
       />
-      <FormItem layout="horizontal" label="FlashSale Icon">
-        <ImageUploadButton
-          accept="image/jpg, image/jpeg, image/png, image/gif, image/webp"
-          beforeUpload={beforeUploadImage}
-          imagePropKey={FLASH_SALE_ICON}
-          placeholder={<>Tải ảnh lên (Tối đa 20MB)</>}
-          deleteImage={() => setFlashSaleIcon(undefined)}
-          separateDevice={separateDevice}
-          allowCropImage={allowCropImage}
-        />
-      </FormItem>
+      <ColorPickerConfig
+        propKey={PRODUCT_LIST_BACKGROUND_CONFIG}
+        formItemProps={{
+          label: "Màu nền danh sách sản phẩm",
+        }}
+        separateDevice={separateDevice}
+      />
+      <InputConfig
+        formItemProps={{
+          label: "Flash sale image url",
+          layout: "vertical",
+        }}
+        propKey={FLASH_SALE_ICON}
+        inputProps={{
+          placeholder: "link",
+          style: { width: "100%" },
+        }}
+      />
       <RangePickerConfig
         formItemProps={{ label: "Thời gian hiển thị" }}
         rangePickerProps={{
@@ -85,28 +89,6 @@ export const Setting: React.FC<SettingConfigProps & CropProps> = ({
           PROP_KEY.StartTime
         )}
         propKeyEnd={PROP_KEY.joinKey(PROP_KEY.TimeVisibility, PROP_KEY.EndTime)}
-      />
-      <InputConfig
-        formItemProps={{
-          label: "Right button link",
-          layout: "vertical",
-        }}
-        propKey={PROP_KEY.joinKey(PROP_KEY.ViewMoreUrl)}
-        inputProps={{
-          placeholder: "Nhập url hoặc slug",
-          style: { width: "100%" },
-        }}
-      />
-      <InputConfig
-        formItemProps={{
-          label: "Right button text",
-          layout: "vertical",
-        }}
-        propKey={PROP_KEY.joinKey("viewMoreText")}
-        inputProps={{
-          placeholder: "Nhập text",
-          style: { width: "100%" },
-        }}
       />
       <SwitchConfig
         formItemProps={{
@@ -138,6 +120,48 @@ export const Setting: React.FC<SettingConfigProps & CropProps> = ({
         inputProps={{
           placeholder: "Nhập url hoặc slug",
           style: { width: "100%" },
+        }}
+      />
+      <InputConfig
+        formItemProps={{
+          label: "View more link",
+          layout: "vertical",
+        }}
+        propKey={PROP_KEY.joinKey(PROP_KEY.ViewMoreUrl)}
+        inputProps={{
+          placeholder: "Nhập url hoặc slug",
+          style: { width: "100%" },
+        }}
+      />
+      <InputConfig
+        formItemProps={{
+          label: "View more text",
+          layout: "vertical",
+        }}
+        propKey={VIEW_MORE_TEXT}
+        inputProps={{
+          placeholder: "Xem chi tiết",
+          style: { width: "100%" },
+        }}
+      />
+      <InputConfig
+        formItemProps={{
+          label: "Available text config",
+          layout: "vertical",
+        }}
+        propKey={AVAILABLE_TEXT_CONFIG}
+        inputProps={{
+          placeholder: "Còn {{totalAvailable}} sản phẩm",
+        }}
+      />
+      <InputConfig
+        formItemProps={{
+          label: "Buy now text config",
+          layout: "vertical",
+        }}
+        propKey={BUY_NOW_TEXT_CONFIG}
+        inputProps={{
+          placeholder: "Mua ngay",
         }}
       />
     </>
