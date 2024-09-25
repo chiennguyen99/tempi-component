@@ -20,6 +20,8 @@ interface FlashSaleProps {
   viewMoreText?: string;
   productListBackgroundConfig?: string;
   isAddTracking?: boolean;
+  platformConfig?: string;
+  collectionSlug?: string;
 }
 
 export const FlashSale: React.FC<FlashSaleProps> = ({
@@ -32,6 +34,8 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
   viewMoreText = "Xem chi tiết",
   productListBackgroundConfig,
   isAddTracking = true,
+  platformConfig = "phongvu",
+  collectionSlug = "/c/flash-sales-3-1",
 }) => {
   const { device } = useStore();
   const { leftSize, centerSize, rightSize } =
@@ -59,11 +63,8 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
             "Content-Type": "application/json",
           }),
           body: JSON.stringify({
-            terminalId: PLATFORM["phongvu"].terminalId,
-            slug: "/c/flash-sales-3-1",
-            blockId: "580",
-            itemId: "72531",
-            pageSize: 20,
+            terminalId: PLATFORM[platformConfig]?.terminalId,
+            slug: collectionSlug,
             sorting: {},
           }),
         }
@@ -83,7 +84,7 @@ export const FlashSale: React.FC<FlashSaleProps> = ({
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [platformConfig, collectionSlug]);
 
   return (
     <Container>

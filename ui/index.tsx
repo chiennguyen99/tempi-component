@@ -16,6 +16,8 @@ export const CustomElement: React.FC<CustomElementProps> = (props) => {
     bannerImage,
     timeVisibility,
     viewMoreUrl,
+    platformConfig,
+    collectionSlug,
   } = props || {};
   const { globalData } = useStore();
   const isPreviewMode = globalData?.isPreviewMode;
@@ -29,6 +31,8 @@ export const CustomElement: React.FC<CustomElementProps> = (props) => {
         isAddTracking={isAddTracking}
         endTime={timeVisibility?.endTime}
         viewMoreUrl={viewMoreUrl}
+        platformConfig={platformConfig}
+        collectionSlug={collectionSlug}
       />
     </Container>
   );

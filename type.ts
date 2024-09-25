@@ -9,4 +9,6 @@ export type CustomElementInterface = {
   isEditingMode?: boolean;
   viewMoreText?: string;
   viewMoreUrl?: string;
+  platformConfig?: string;
+  collectionSlug?: string;
 };
